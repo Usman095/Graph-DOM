@@ -9,7 +9,6 @@ import re
 import operator
 import copy
 import matplotlib.pyplot as plt
-from tqdm.notebook import tqdm
 
 from src import config, pathways, outputs, utils, families
 

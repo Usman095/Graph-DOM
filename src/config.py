@@ -10,7 +10,7 @@ alt_losses = OrderedDict([("C2H4", 28032), ("CH2O", 30011), ("C2H6", 30046), ("C
                           ("C3H6", 42047), ("C2H6O", 46042), ("C4H8", 56063), ("C2H4O2", 60021)])
 
 
-input_file_path = '2D_MSMS_CHO_02_08_2021.xlsx'
+input_file_path = 'input/2D_MSMS_CHO_02_08_2021.xlsx'
 
 multiple = 4 #multiple of each neutral loss to consider to find the next peak
 tolerance = 3 #tolerance of +-1mDa

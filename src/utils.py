@@ -1,7 +1,7 @@
 import re
 from collections import OrderedDict
 
-import config
+from src import config
 
 # get mass of a molecule given in dictionary form.
 def get_mass(dic_formula):

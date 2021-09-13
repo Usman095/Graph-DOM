@@ -1,17 +1,4 @@
-import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
-import numpy as np
-import queue
-import csv
-from collections import OrderedDict
-import re
-import operator
-import copy
-import matplotlib.pyplot as plt
-from tqdm.notebook import tqdm
-
-import config
+from src import config
 
 
 def overlap_size(path1, path2):

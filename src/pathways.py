@@ -11,7 +11,7 @@ import copy
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-from src import config, utils, plots
+from src import config, utils
 
 
 def generate_pathways(groups):
