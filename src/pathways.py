@@ -79,7 +79,6 @@ def generate_pathways(groups):
             while not pathways.empty():
                 mol = pathways.get()
                 is_core = True
-                found = {"CH2": False, "CH4": False, "CO": False, "H2O": False, "CH3": False, "CO2": False, "C2H4": False, "O": False, "CH4O": False}
                 for loss, loss_mass in config.neutral_losses.items():
                     tpmass = mol["CoreMass"]
                     for mul in range(config.multiple):
@@ -88,68 +87,10 @@ def generate_pathways(groups):
                             nloss_found = False
                             new_mol = copy.deepcopy(mol)
                             new_mol["CoreMass"] = tpmass
-                            if loss == "CH2":
-                                if 5 > mul+1 > 1:
-                                    l_loss = "C{}H{}".format(mul+1, 2*(mul+1))
-                                    new_mol["path"].append((l_loss, 1))
-                                    nloss_found = True
-                                    if l_loss == "C2H4":
-                                        found["C2H4"] = True
-                                if mul+1 == 1:
-                                    if "CO" in new_mol["path"][-1]:
-                                        del new_mol["path"][-1]
-                                        new_mol["path"].append(("C2H2O", 1))
-                                    if "CH4" in new_mol["path"][-1]:
-                                        del new_mol["path"][-1]
-                                        new_mol["path"].append(("C2H6", 1))
-                                    if "H2O" in new_mol["path"][-1]:
-                                        del new_mol["path"][-1]
-                                        new_mol["path"].append(("CH4O", 1))
-                                        found["CH4O"] = True
-                                    if "O" in new_mol["path"][-1]:
-                                        del new_mol["path"][-1]
-                                        new_mol["path"].append(("CH2O", 1))
-                                    if "CH4O" in new_mol["path"][-1]:
-                                        del new_mol["path"][-1]
-                                        new_mol["path"].append(("C2H6O", 1))
-                                    else:
-                                        new_mol["path"].append(("CH2", 1))
-                                        nloss_found = True
-                                        found["CH2"] = True
-                            else:
-                                new_mol["path"].append((loss, mul+1))
-                                nloss_found = True
-                                if loss in found and mul+1 == 1:
-                                    found[loss] = True
-                            if nloss_found:
-                                is_core = False
-                                pathways.put(new_mol)
-                                break
-                            
-                for loss, loss_mass in config.alt_losses.items():
-                    tpmass = mol["CoreMass"] - loss_mass
-                    if tpmass > 0 and tpmass <= l_precursor_mass and expanded_moz[tpmass] == 1:
-                        nloss_found = False
-                        new_mol = copy.deepcopy(mol)
-                        new_mol["CoreMass"] = tpmass
-                        if loss == "C2H6" and not (found["CH3"] or found["CH2"] or found["CH4"]):
-                            new_mol["path"].append((loss, 1))
-                            nloss_found = True
-                        if loss == "CH4O" and not (found["CH2"] or found["CH4"] or found["H2O"] or found["O"]):
-                            new_mol["path"].append((loss, 1))
-                            nloss_found = True
-                        if loss == "C2H2O" and not(found["CO"] or found["CH2"]):
-                            new_mol["path"].append((loss, 1))
-                            nloss_found = True
-                        if loss == "C2H6O" and not (found["CH4O"] or found["C2H4"] or found["H2O"]):
-                            new_mol["path"].append((loss, 1))
-                            nloss_found = True
-                        if loss == "CH2O" and not (found["CH2"] or found["O"]):
-                            new_mol["path"].append((loss, 1))
-                            nloss_found = True
-                        if nloss_found:
+                            new_mol["path"].append((loss, mul+1))
                             is_core = False
                             pathways.put(new_mol)
+                            break
                             
                 if is_core and expanded_moz[mol["CoreMass"]] == 1 and utils.is_path_valid(mol["path"], precursor_formula):
                     new_mol = copy.deepcopy(mol)
