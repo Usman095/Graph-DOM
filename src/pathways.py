@@ -26,6 +26,7 @@ def generate_pathways(groups):
         """
         Traverse through each group. Each group contains one spectrum (with multiple precursors)
         """
+        spec = spec.drop_duplicates('Chemical formula')
         spec.reset_index(drop=True, inplace=True)
         i = 0
         while abs(spec.loc[i, 'fragments m/z'] - name) < config.nominal_tolerance:
