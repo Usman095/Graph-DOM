@@ -137,5 +137,7 @@ def generate_pathways(groups):
             #print(core_dict)
             
             i += 1
+            if i >= len(spec):
+                break
 
     return pathway_o_dict, precursor_pathway_hist, o_count
