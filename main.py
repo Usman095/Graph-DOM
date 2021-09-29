@@ -33,7 +33,7 @@ if __name__ == '__main__':
     df = df.sort_values(['Precursor m/z', 'fragments m/z'], ascending=[True, False]).reset_index(drop=True)
     groups = df.groupby('Precursor m/z', sort=False)
 
-    pathway_dict, precursor_pathway_hist, o_count = pathways.generate_pathways(groups)
+    pathway_dict, precursor_pathway_hist, o_count = pathways.generate_pathways_par(groups)
 
     print("Total number of precursors: {}".format(len(pathway_dict)))
     outputs.write_pathway_to_csv(pathway_dict)
@@ -56,6 +56,7 @@ if __name__ == '__main__':
     pathway_dict_df.reset_index(drop=True, inplace=True)
 
     ######## Families Start Here ##########
+    print("Creating families...")
     roots, path_forest = families.get_path_forest(pathway_dict_df)
     family_dict = families.combine_families(roots, path_forest)
     outputs.write_families_to_csv(family_dict)
