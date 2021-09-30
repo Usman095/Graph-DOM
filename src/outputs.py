@@ -10,6 +10,8 @@ from src import utils
 
 plot_path = 'output/plots'
 file_path = 'output/files'
+
+
 def vk(mol_dicts):
     hoc = []
     ooc = []
@@ -23,6 +25,7 @@ def vk(mol_dicts):
     plt.xlabel('O/C', fontsize=20)
     plt.title('O/C H/C plot')
     plt.savefig(join(plot_path, 'Van_Krevelen_all_classes.png'), dpi=600)
+    plt.close()
 
 
 def core_dist_over_precursor(pathway_dict, x_axis='pre_mz'):
@@ -44,6 +47,7 @@ def core_dist_over_precursor(pathway_dict, x_axis='pre_mz'):
     plt.ylabel('Number of Core-Fragments')
     plt.title('Distribution of Core-Fragments over Precursors')
     plt.savefig(join(plot_path, 'Cores_vs_Precursors.png'), dpi=600)
+    plt.close()
     f = open(join(file_path, 'Cores_vs_Precursors.csv'), "a")
     f.write("Precuresor ID, Precursor m/z, Number of Cores, Precursor Formula\n")
     for pre_id, (l_pre_mz, l_num_cores, l_pre) in enumerate(zip(pre_mz, num_cores, pre)):
@@ -74,6 +78,7 @@ def pathway_dist_over_precursor(pathway_dict, precursor_pathway_hist, x_axis='pr
     plt.suptitle('Pathway Count Distribution over Precursor')
     pre_path = join(plot_path, 'Pathway_Dist.png')
     plt.savefig(pre_path, dpi=600)
+    plt.close()
     print('Saved plot at: "{}"'.format(pre_path))
 
     pre_path = join(file_path, 'Pathway_Dist.csv')
@@ -96,6 +101,7 @@ def pathway_dist_over_oxygen_class(o_count):
     plt.title('Distribution of Pathways over Oxygen Class')
     o_class_path = join(plot_path, 'Pathways_vs_Oxygen_Class.png')
     plt.savefig(o_class_path, dpi=600)
+    plt.close()
     print('Saved plot at: "{}"'.format(o_class_path))
 
 
@@ -117,6 +123,7 @@ def core_dist_over_oxygen_class(pathway_dict):
     plt.title('Distribtion of Core-Fragments over Oxygen Class')
     path = join(plot_path, 'Core-Fragment_vs_Oxygen_Class.png')
     plt.savefig(path, dpi=600)
+    plt.close()
     print('Saved plot at: "{}"'.format(path))
 
 
@@ -146,16 +153,18 @@ def write_pathway_to_csv(pathway_dict):
 def write_families_to_csv(family_dict):
     family_output = []
     for prec_id, family_group in family_dict.items():
+        family_output.append([family_group, ""])
         for prec in prec_id:
-            family_output.append([prec, "", "", "", "", "", ""])
-        for family in family_group:
-            for row in family:
-                family_output.append([""] + row)
-            family_output.append(["", "", "", "", "", "", ""])
-        family_output.append(["", "", "", "", "", "", ""])
-        family_output.append(["", "", "", "", "", "", ""])
+            family_output.append(["", prec])
+        # for family in family_group:
+        #     for row in family:
+        #         family_output.append([""] + row)
+        #     family_output.append(["", "", "", "", "", "", ""])
+        # family_output.append(["", "", "", "", "", "", ""])
+        # family_output.append(["", "", "", "", "", "", ""])
 
-    out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
+    # out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
+    out_df = pd.DataFrame(family_output, columns=['Count', 'Family-ID'])
     family_path = join(file_path, 'Families.csv')
     out_df.to_csv(family_path)
     print('Wrote Families to: "{}"'.format(family_path))
@@ -164,7 +173,7 @@ def write_families_to_csv(family_dict):
 def isomers_vs_family_id(family_dict):
     dist = []
     for prec_id, family_group in family_dict.items():
-        dist.append(len(family_group))
+        dist.append((family_group))
     #     if len(family_group) > 20000:
     #         print(prec_id)
     dist.sort(reverse=True)
@@ -179,6 +188,7 @@ def isomers_vs_family_id(family_dict):
 
     iso_path = join(plot_path, 'Isomers_vs_Family_Id.png')
     plt.savefig(iso_path, dpi=600)
+    plt.close()
     print('Save Isomers vs Family Id Plot at: "{}"'.format(iso_path))
 
 
@@ -243,6 +253,7 @@ def family_parents_vs_oxygen_class(family_dict):
     plt.title('Distribution of Family Parents over Oxygen Class.')
     family_path = join(plot_path, 'Family_Parents_vs_Oxygen_Class.png')
     plt.savefig(family_path, dpi=600)
+    plt.close()
     print('Saved Family Parents vs Oxygen Class at: "{}"'.format(family_path))
 
 
@@ -263,6 +274,7 @@ def family_size_dist(family_dict):
     plt.title('Distribution of Number of Families over Family Size')
     family_path = join(plot_path, 'Family_Size_Distribution.png')
     plt.savefig(family_path, dpi=600)
+    plt.close()
     print('Saved Family Sized Distribution at: "{}"'.format(family_path))
 
 
