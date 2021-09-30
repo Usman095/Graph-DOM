@@ -46,9 +46,11 @@ if __name__ == '__main__':
     pathway_dict_df.reset_index(drop=True, inplace=True)
 
     ######## Families Start Here ##########
-    print("Creating families...")
+    print("Creating Families...")
     roots, path_forest = families.get_path_forest(pathway_dict_df)
+    print("Combining Families...")
     family_dict = families.combine_families(roots, path_forest)
+    print("Writing Families to CSV...")
     outputs.write_families_to_csv(family_dict)
 
     print("Found {} total families.".format(len(family_dict)))
