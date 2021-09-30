@@ -48,8 +48,11 @@ if __name__ == '__main__':
     ######## Families Start Here ##########
     print("Creating Families...")
     roots, path_forest = families.get_path_forest(pathway_dict_df)
+    del pathway_dict_df
     print("Combining Families...")
     family_dict = families.combine_families(roots, path_forest)
+    del roots
+    del path_forest
     print("Writing Families to CSV...")
     outputs.write_families_to_csv(family_dict)
 
