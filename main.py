@@ -55,6 +55,7 @@ if __name__ == '__main__':
     del path_forest
     print("Writing Families to CSV...")
     outputs.write_families_to_csv(family_dict)
+    outputs.write_families_to_csv_short(family_dict)
 
     print("Found {} total families.".format(len(family_dict)))
 
@@ -71,10 +72,10 @@ if __name__ == '__main__':
             pre_set.add(pre)
     print("Precursors in Families: {}".format(len(pre_set)))
 
-    # total_cores, cores_in_families = outputs.core_coverage(nominal_dict, pathway_dict, family_dict)
-    # print("Total Number of Core-Fragments Identified: {}".format(total_cores))
-    # print("Cores-Fragments Covered in Families: {}".format(cores_in_families))
+    total_cores, cores_in_families = outputs.core_coverage(nominal_dict, pathway_dict, family_dict)
+    print("Total Number of Core-Fragments Identified: {}".format(total_cores))
+    print("Cores-Fragments Covered in Families: {}".format(cores_in_families))
 
-    # total_frags, family_frags = outputs.fragment_coverage(nominal_dict, pathway_dict, family_dict)
-    # print("Total Number of Fragments in the Input: {}".format(total_frags))
-    # print("Fragments Covered in Families: {}".format(family_frags))
+    total_frags, family_frags = outputs.fragment_coverage(nominal_dict, pathway_dict, family_dict)
+    print("Total Number of Fragments in the Input: {}".format(total_frags))
+    print("Fragments Covered in Families: {}".format(family_frags))

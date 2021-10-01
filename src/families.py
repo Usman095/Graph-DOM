@@ -99,14 +99,14 @@ def populate_family_dict(path, path_forest, family_dict):
         prec_list.append(node[0][0])
         family.append(out_row)
     prec_id = tuple(prec_list)
-    # if prec_id in family_dict:
-    #     family_dict[prec_id].append(family)
-    # else:
-    #     family_dict[prec_id] = [family]
     if prec_id in family_dict:
-        family_dict[prec_id] += 1
+        family_dict[prec_id].append(family)
     else:
-        family_dict[prec_id] = 1
+        family_dict[prec_id] = [family]
+    # if prec_id in family_dict:
+    #     family_dict[prec_id] += 1
+    # else:
+    #     family_dict[prec_id] = 1
 
 
 def combine_families(roots, path_forest):

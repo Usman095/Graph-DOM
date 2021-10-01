@@ -153,6 +153,26 @@ def write_pathway_to_csv(pathway_dict):
 def write_families_to_csv(family_dict):
     family_output = []
     for prec_id, family_group in family_dict.items():
+        # family_output.append([family_group, ""])
+        for prec in prec_id:
+            family_output.append([prec, "", "", "", "", "", ""])
+        for family in family_group:
+            for row in family:
+                family_output.append([""] + row)
+            family_output.append(["", "", "", "", "", "", ""])
+        family_output.append(["", "", "", "", "", "", ""])
+        family_output.append(["", "", "", "", "", "", ""])
+
+    out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
+    # out_df = pd.DataFrame(family_output, columns=['Count', 'Family-ID'])
+    family_path = join(file_path, 'Families.csv')
+    out_df.to_csv(family_path)
+    print('Wrote Families to: "{}"'.format(family_path))
+
+
+def write_families_to_csv_short(family_dict):
+    family_output = []
+    for prec_id, family_group in family_dict.items():
         family_output.append([family_group, ""])
         for prec in prec_id:
             family_output.append(["", prec])
@@ -165,7 +185,7 @@ def write_families_to_csv(family_dict):
 
     # out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
     out_df = pd.DataFrame(family_output, columns=['Count', 'Family-ID'])
-    family_path = join(file_path, 'Families.csv')
+    family_path = join(file_path, 'Families-Short.csv')
     out_df.to_csv(family_path)
     print('Wrote Families to: "{}"'.format(family_path))
 
@@ -173,7 +193,7 @@ def write_families_to_csv(family_dict):
 def isomers_vs_family_id(family_dict):
     dist = []
     for prec_id, family_group in family_dict.items():
-        dist.append((family_group))
+        dist.append(len(family_group))
     #     if len(family_group) > 20000:
     #         print(prec_id)
     dist.sort(reverse=True)
@@ -264,6 +284,7 @@ def family_size_dist(family_dict):
         size = len(family_id)
         sizes[size] += 1
 
+    print("Family size distribution:\n{}".format(sizes))
     x_pos = range(2, 7)
     y = sizes[2: 7]
     labels = range(2, 7)
