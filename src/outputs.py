@@ -72,8 +72,9 @@ def pathway_dist_over_precursor(pathway_dict, precursor_pathway_hist, x_axis='pr
         plt.bar(pre_mz, y, color='green')
         plt.xlabel('Precursor m/z')
     else:
-        plt.bar(x, y, color='green')
+        plt.bar(range(len(x)), y, color='green')
         plt.xlabel('Precursor Id')
+    plt.yscale("log")
     plt.ylabel('Number of Pathways')
     plt.suptitle('Pathway Count Distribution over Precursor')
     pre_path = join(plot_path, 'Pathway_Dist.png')
@@ -200,7 +201,8 @@ def isomers_vs_family_id(family_dict):
     print(dist)
     # dist = dist[:20]
     plt.bar(range(len(dist)), dist, align='center', color='green')
-    plt.ylim((0, 4000))
+    plt.yscale("log")
+    # plt.ylim((0, 4000))
     # plt.xticks(x_pos, labels)
     plt.ylabel('Isomers')
     plt.xlabel('Family ID')
