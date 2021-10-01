@@ -1,3 +1,5 @@
+import os.path
+import shutil
 import pandas as pd
 
 from src import config, pathways, outputs, utils, families
@@ -11,8 +13,21 @@ if __name__ == '__main__':
     row_list.sort(key=lambda x: utils.get_mass(utils.get_formula(x)))
     row = [utils.get_formula(x) for x in row_list]
     masses = [utils.get_mass(x) for x in row]
-    print(len(df))
-    print(len(precursor_data))
+    # print(len(df))
+    # print(len(precursor_data))
+    if os.path.isdir('./output'):
+        print("Output dir exists. Contents will be overwritten.")
+        if os.path.isdir("./output/files"):
+            shutil.rmtree("./output/files")
+            os.mkdir("./output/files")
+        if os.path.isdir("./output/plots"):
+            shutil.rmtree("./output/plots")
+            os.mkdir("./output/plots")
+    else:
+        print("Output directory doesn't exist. Creating directory.")
+        os.mkdir("./output")
+        os.mkdir("./output/files")
+        os.mkdir("./output/plots")
 
     nominal_dict = {}
     for _, l_row in precursor_data.iterrows():

@@ -198,6 +198,7 @@ def isomers_vs_family_id(family_dict):
     #     if len(family_group) > 20000:
     #         print(prec_id)
     dist.sort(reverse=True)
+    print("Isomers vs family id:")
     print(dist)
     # dist = dist[:20]
     plt.bar(range(len(dist)), dist, align='center', color='green')
