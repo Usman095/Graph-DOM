@@ -2,6 +2,7 @@ from os.path import join
 import csv
 
 import pandas as pd
+from collections import defaultdict
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -299,7 +300,49 @@ def family_size_dist(family_dict):
     family_path = join(plot_path, 'Family_Size_Distribution.png')
     plt.savefig(family_path, dpi=600)
     plt.close()
-    print('Saved Family Sized Distribution at: "{}"'.format(family_path))
+    print('Saved Family Size Distribution at: "{}"'.format(family_path))
+
+
+def family_dist_over_nl_seq(family_dict):
+    fam_dict = defaultdict(int)
+    for prec_id, family_group in family_dict.items():
+        fam_set = set()
+        for family in family_group:
+            nl_str = ""
+            first = True
+            for row in family:
+                if first:
+                    first = False
+                else:
+                    nl_str += row[3][1:] + ", "
+            fam_set.add(nl_str[:-2])
+            
+        for seq in fam_set:
+            fam_dict[seq] += 1
+    
+    seqs = []
+    seq_counts = []
+    for seq, count in fam_dict.items():
+        seqs.append(seq)
+        seq_counts.append(count)
+
+    seqs, seq_counts = list(zip(*sorted(zip(seqs, seq_counts), key=lambda x: x[1], reverse=True)))
+    plt.bar(range(len(seqs)), seq_counts, align='center', color='green')
+    plt.yscale("log")
+    # plt.ylim((0, 4000))
+    # plt.xticks(x_pos, labels)
+    plt.ylabel('Number of Families')
+    plt.xlabel('Neutral Loss Sequence ID')
+    plt.title('Family Distribution over Neutral Loss Sequence')
+    fam_path = join(plot_path, 'Neutral-Loss-Sequence-vs-Families.png')
+    plt.savefig(fam_path, dpi=600)
+    plt.close()
+    print('Saved Family Count Distribution over Neutral Loss Sequence Plot at: "{}"'.format(fam_path))
+    df = pd.DataFrame(list(zip(seqs, seq_counts)),
+               columns =['Neutral Loss Sequence', 'Number of Families'])
+    fam_path = join(file_path, 'Neutral-Loss-Sequence-vs-Families.csv')
+    df.to_csv(fam_path)
+    print('Saved Family Count Distribution over Neutral Loss Sequence csv at: "{}"'.format(fam_path))
 
 
 def core_coverage(nominal_dict, pathway_dict, family_dict):

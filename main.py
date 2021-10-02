@@ -78,6 +78,7 @@ if __name__ == '__main__':
     outputs.write_cytoscape_family_graph(family_dict)
     outputs.family_parents_vs_oxygen_class(family_dict)
     outputs.family_size_dist(family_dict)
+    outputs.family_dist_over_nl_seq(family_dict)
 
     ########### Stats ##############
     print("Total Number of Precursors: {}".format(len(set(list(precursor_data["Chemical formula"])))))
