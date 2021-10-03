@@ -175,10 +175,17 @@ def write_families_to_csv(family_dict):
 def write_families_to_csv_short(family_dict):
     family_output = []
     for prec_id, family_group in family_dict.items():
-        family_output.append([family_group, ""])
+        # family_output.append([family_group, ""])
+        line = []
+        count = 0
+        for _ in family_group:
+            count += 1
+        line.append(count)
+        prec_str = []
         for prec in prec_id:
-            family_output.append(["", prec])
-        # for family in family_group:
+            prec_str.append(prec)
+        line.append(', '.join(prec_str))
+        family_output.append(line)
         #     for row in family:
         #         family_output.append([""] + row)
         #     family_output.append(["", "", "", "", "", "", ""])
@@ -186,7 +193,7 @@ def write_families_to_csv_short(family_dict):
         # family_output.append(["", "", "", "", "", "", ""])
 
     # out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
-    out_df = pd.DataFrame(family_output, columns=['Count', 'Family-ID'])
+    out_df = pd.DataFrame(family_output, columns=['# of Overlap Pathways', 'Family'])
     family_path = join(file_path, 'Families-Short.csv')
     out_df.to_csv(family_path)
     print('Wrote Families to: "{}"'.format(family_path))
