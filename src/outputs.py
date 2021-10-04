@@ -199,6 +199,28 @@ def write_families_to_csv_short(family_dict):
     print('Wrote Families to: "{}"'.format(family_path))
 
 
+def write_fam4_to_csv(family_dict):
+    '''Write only families of size >= 4 to csv'''
+    family_output = []
+    for prec_id, family_group in family_dict.items():
+        # family_output.append([family_group, ""])
+        if len(prec_id) >= 4:
+            for prec in prec_id:
+                family_output.append([prec, "", "", "", "", "", ""])
+            for family in family_group:
+                for row in family:
+                    family_output.append([""] + row)
+                family_output.append(["", "", "", "", "", "", ""])
+            family_output.append(["", "", "", "", "", "", ""])
+            family_output.append(["", "", "", "", "", "", ""])
+
+    out_df = pd.DataFrame(family_output, columns=['Family-ID', 'Precursor', 'Core-Fragment', 'Pathway', 'Neutral-Loss', 'Overlap-Path', 'Short-Key'])
+    # out_df = pd.DataFrame(family_output, columns=['Count', 'Family-ID'])
+    family_path = join(file_path, 'Families-size-4-or-more.csv')
+    out_df.to_csv(family_path)
+    print('Wrote Families to: "{}"'.format(family_path))
+
+
 def isomers_vs_family_id(family_dict):
     dist = []
     for prec_id, family_group in family_dict.items():
