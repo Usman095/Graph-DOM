@@ -71,7 +71,7 @@ if __name__ == '__main__':
     print("Writing Families to CSV...")
     outputs.write_families_to_csv(family_dict)
     outputs.write_families_to_csv_short(family_dict)
-    outputs.write_fam4_to_csv(family_dict)
+    outputs.write_fam5_to_csv(family_dict)
 
     print("Found {} total families.".format(len(family_dict)))
 
