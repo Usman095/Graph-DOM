@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 from src import config
 
+
 # get mass of a molecule given in dictionary form.
 def get_mass(dic_formula):
     mass = 0

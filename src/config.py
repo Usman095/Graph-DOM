@@ -1,8 +1,6 @@
-from configparser import ConfigParser
-import os
 import ast
 from collections import OrderedDict
-
+from configparser import ConfigParser
 
 DEFAULT_PARAM_PATH = './config.ini'
 PARAM_PATH = None

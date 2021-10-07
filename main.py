@@ -1,8 +1,9 @@
 import os.path
 import shutil
+
 import pandas as pd
 
-from src import config, pathways, outputs, utils, families
+from src import config, families, outputs, pathways, utils
 
 if __name__ == '__main__':
     df = pd.read_excel(config.input_file_path)
