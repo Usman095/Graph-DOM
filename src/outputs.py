@@ -1,9 +1,10 @@
-from os.path import join
 import csv
-
-import pandas as pd
 from collections import defaultdict
+from os.path import join
+
 import matplotlib
+import pandas as pd
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
