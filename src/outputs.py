@@ -67,14 +67,14 @@ def pathway_dist_over_precursor(pathway_dict, precursor_pathway_hist, x_axis='pr
     pre_mz, num_cores, pre = map(list, zip(*pre_mass_num_core))
 
     precursor_pathway_hist.sort(key = lambda x: x[0], reverse=False)
-    x, y = map(list, zip(*precursor_pathway_hist))
+    x, y, z = map(list, zip(*precursor_pathway_hist)) # pre_mz, pre_formula, num_pathways
 
-    print("Total Number of Pathways Identified: {}".format(sum(y)))    
+    print("Total Number of Pathways Identified: {}".format(sum(z)))    
     if x_axis == "pre_mz":
-        plt.bar(pre_mz, y, color='green')
+        plt.bar(x, z, color='green')
         plt.xlabel('Precursor m/z')
     else:
-        plt.bar(range(len(x)), y, color='green')
+        plt.bar(range(len(x)), z, color='green')
         plt.xlabel('Precursor Id')
     plt.yscale("log")
     plt.ylabel('Number of Pathways')
@@ -87,7 +87,7 @@ def pathway_dist_over_precursor(pathway_dict, precursor_pathway_hist, x_axis='pr
     pre_path = join(file_path, 'Pathway_Dist.csv')
     f = open(pre_path, "a")
     f.write("Precursor ID, Precursor m/z, Number of Pathways, Precursor Formula\n")
-    for pre_id, (l_pre_mz, l_path, l_pre) in enumerate(zip(pre_mz, y, pre)):
+    for pre_id, (l_pre_mz, l_path, l_pre) in enumerate(zip(x, z, y)):
         f.write("{}, {}, {}, {}\n".format(pre_id, l_pre_mz, l_path, l_pre))
     f.close()
     print('Saved file at: "{}"'.format(pre_path))
@@ -271,6 +271,7 @@ def isomers_vs_family_id(family_dict):
 def write_cytoscape_family_graph(family_dict):
     g_set    = set()
     pre_set  = set()
+    g_lst = []
     core_set = set()
     all_set  = set()
 
@@ -299,10 +300,11 @@ def write_cytoscape_family_graph(family_dict):
         family_id += 1
 
         g_lst = list(g_set)
-    df = pd.DataFrame(g_lst, columns =['source', 'target', 'neutral_loss', 'family_id'])
-    graph_path = join(file_path, "cytoscape_family_graph.csv")
-    df.to_csv(graph_path, index=False)
-    print('Wrote Cytoscape File at "{}"'.format(graph_path))
+    if g_lst:
+        df = pd.DataFrame(g_lst, columns =['source', 'target', 'neutral_loss', 'family_id'])
+        graph_path = join(file_path, "cytoscape_family_graph.csv")
+        df.to_csv(graph_path, index=False)
+        print('Wrote Cytoscape File at "{}"'.format(graph_path))
 
 
 def family_parents_vs_oxygen_class(family_dict):

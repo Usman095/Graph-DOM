@@ -177,6 +177,8 @@ def pathway_per_group(name, spec):
         """
         l_precursor_mass = int(round(spec.loc[i, 'fragments m/z'] * 1000))
         precursor_string = spec.loc[i, 'Chemical formula']
+        # if 'N' in precursor_string or 'S' in precursor_string:
+        #     print(precursor_string)
         precursor_formula = utils.get_formula(precursor_string)
         
         #print('precursor: {}'.format(l_precursor_mass))
@@ -226,6 +228,8 @@ def pathway_per_group(name, spec):
                 for mul in range(config.multiple):
                     tpmass -= loss_mass
                     if tpmass > 0 and tpmass <= l_precursor_mass and expanded_moz[tpmass] == 1:
+                        # if 'N' in loss or 'S' in loss and loss != 'H2SO3':
+                        #     print(loss)
                         nloss_found = False
                         new_mol = copy.deepcopy(mol)
                         new_mol["CoreMass"] = tpmass
@@ -251,8 +255,9 @@ def pathway_per_group(name, spec):
         #    print(pathways.get())
         print(spec.loc[i, 'Chemical formula'] + ' Number of possible combinations: ' + str(len(core_cand)))
         
+        # print(core_cand)
         """Generate the histogram of number of pathways per precursor m/z"""
-        precursor_pathway_hist.append([spec.loc[i, 'Precursor m/z'], len(core_cand)])
+        precursor_pathway_hist.append([spec.loc[i, 'Precursor m/z'], spec.loc[i, 'Chemical formula'], len(core_cand)])
         
         """Get the oxygen group distribution."""
         tmp_o_count = utils.get_formula(spec.loc[i, 'Chemical formula'])['O']
