@@ -188,11 +188,11 @@ def pathway_per_group(name, spec):
         expanded_moz = np.zeros(np.amax(moz) + config.tolerance)
         expanded_moz[moz] = 1
         
-        expanded_moz = np.convolve(expanded_moz, np.ones((config.tolerance,)), mode='valid')
+        # expanded_moz = np.convolve(expanded_moz, np.ones((config.tolerance,)), mode='valid')
         #print(np.sum(expanded_moz))
 
-        for idx in range(len(expanded_moz)):
-            expanded_moz[idx] = 1 if expanded_moz[idx] > 0 else 0   
+        # for idx in range(len(expanded_moz)):
+        #     expanded_moz[idx] = 1 if expanded_moz[idx] > 0 else 0   
     
         if expanded_moz[l_precursor_mass] != 1:
             print('precursor: {}'.format(l_precursor_mass))
@@ -206,7 +206,11 @@ def pathway_per_group(name, spec):
             for mul in range(config.multiple): #upto 5 neutral losses of one kind
                 nprecursor -= loss_mass
                 
-                if nprecursor > 0 and nprecursor <= l_precursor_mass and expanded_moz[nprecursor] == 1:
+                if nprecursor > 0 and nprecursor <= l_precursor_mass and \
+                    any(expanded_moz[nprecursor-config.tolerance : nprecursor+config.tolerance+1]) == 1:
+                    for idx, peak in enumerate(expanded_moz[nprecursor-config.tolerance : nprecursor+config.tolerance+1]):
+                        if peak == 1:
+                            nprecursor += idx - config.tolerance
                     new_mol = OrderedDict()    
                     new_mol["CoreMass"] = nprecursor
                     #new_mol["CoreFrag"] = ""
@@ -227,7 +231,11 @@ def pathway_per_group(name, spec):
                 tpmass = mol["CoreMass"]
                 for mul in range(config.multiple):
                     tpmass -= loss_mass
-                    if tpmass > 0 and tpmass <= l_precursor_mass and expanded_moz[tpmass] == 1:
+                    if tpmass > 0 and tpmass <= l_precursor_mass and \
+                        any(expanded_moz[tpmass-config.tolerance : tpmass+config.tolerance+1]) == 1:
+                        for idx, peak in enumerate(expanded_moz[tpmass-config.tolerance : tpmass+config.tolerance+1]):
+                            if peak == 1:
+                                tpmass += idx - config.tolerance
                         # if 'N' in loss or 'S' in loss and loss != 'H2SO3':
                         #     print(loss)
                         nloss_found = False
