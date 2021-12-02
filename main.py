@@ -67,20 +67,23 @@ if __name__ == '__main__':
     del pathway_dict_df
     print("Combining Families...")
     family_dict = families.combine_families(roots, path_forest)
-    del roots
-    del path_forest
-    print("Writing Families to CSV...")
-    outputs.write_families_to_csv(family_dict)
-    outputs.write_families_to_csv_short(family_dict)
-    outputs.write_fam5_to_csv(family_dict)
+    if len(family_dict) > 0:
+        del roots
+        del path_forest
+        print("Writing Families to CSV...")
+        outputs.write_families_to_csv(family_dict)
+        outputs.write_families_to_csv_short(family_dict)
+        outputs.write_fam5_to_csv(family_dict)
 
-    print("Found {} total families.".format(len(family_dict)))
+        print("Found {} total families.".format(len(family_dict)))
 
-    outputs.isomers_vs_family_id(family_dict)
-    outputs.write_cytoscape_family_graph(family_dict)
-    outputs.family_parents_vs_oxygen_class(family_dict)
-    outputs.family_size_dist(family_dict)
-    outputs.family_dist_over_nl_seq(family_dict)
+        outputs.isomers_vs_family_id(family_dict)
+        outputs.write_cytoscape_family_graph(family_dict)
+        outputs.family_parents_vs_oxygen_class(family_dict)
+        outputs.family_size_dist(family_dict)
+        outputs.family_dist_over_nl_seq(family_dict)
+    else:
+        print("{}Info: No families were found!{}".format('\033[94m', '\033[0m'))
 
     ########### Stats ##############
     print("Total Number of Precursors: {}".format(len(set(list(precursor_data["Chemical formula"])))))
