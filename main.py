@@ -1,5 +1,6 @@
 import os.path
 import shutil
+import pickle
 
 import pandas as pd
 
@@ -40,6 +41,8 @@ if __name__ == '__main__':
     groups = df.groupby('Precursor m/z', sort=False)
 
     pathway_dict, precursor_pathway_hist, o_count = pathways.generate_pathways_par(groups)
+    with open('pathways-sori.pkl', 'wb') as handle:
+        pickle.dump(pathway_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     print("Total number of precursors: {}".format(len(pathway_dict)))
     outputs.write_pathway_to_csv(pathway_dict)
