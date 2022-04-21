@@ -13,7 +13,7 @@ def generate_pathways(groups):
     pathway_o_dict = OrderedDict()
     precursor_pathway_hist = []
     oxygen_class_dist = []
-    o_len = 20
+    o_len = 30
     o_count = [0] * o_len
 
     for name, spec in groups:
@@ -150,7 +150,7 @@ def generate_pathways_par(groups):
     for hist in pathway_hist_list:
         precursor_pathway_hist.extend(hist)
 
-    o_len = 20
+    o_len = 30
     o_count = np.zeros(o_len)
     for count in o_count_list:
         o_count += np.array(count)
