@@ -166,7 +166,7 @@ def pathway_per_group(name, spec):
     """
     pathway_o_dict = OrderedDict()
     precursor_pathway_hist = []
-    o_len = 20
+    o_len = 30
     o_count = [0] * o_len
     spec = spec.drop_duplicates('Chemical formula')
     spec.reset_index(drop=True, inplace=True)
@@ -269,7 +269,7 @@ def pathway_per_group(name, spec):
         
         """Get the oxygen group distribution."""
         tmp_o_count = utils.get_formula(spec.loc[i, 'Chemical formula'])['O']
-        if 0 <= tmp_o_count <= o_len:
+        if 0 <= tmp_o_count < o_len:
             o_count[tmp_o_count] += len(core_cand)
         
         # Go through each pathways, get core-fragment, and fill the dictionary
