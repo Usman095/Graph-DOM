@@ -109,7 +109,7 @@ def pathway_dist_over_oxygen_class(o_count):
 
 
 def core_dist_over_oxygen_class(pathway_dict):
-    o_len = 20
+    o_len = 30
     o_count = [0] * o_len
     for pre, core_dict in pathway_dict.items():
         if 'N' not in pre:
@@ -314,7 +314,7 @@ def family_parents_vs_oxygen_class(family_dict):
     for family_id in family_dict:
         parents.add(family_id[-1])
 
-    o_len = 20    
+    o_len = 30    
     o_count = [0] * o_len
     parents = set(parents)
     for pre in parents:
